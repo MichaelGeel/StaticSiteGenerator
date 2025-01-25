@@ -24,4 +24,5 @@ def main():
     print(new_node)
 
 
-main()
+if __name__ == "__main__":
+    main()
