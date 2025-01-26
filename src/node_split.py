@@ -3,6 +3,7 @@ import re
 from extraction import extract_markdown_links, extract_markdown_images
 
 def split_nodes_delimited(old_nodes, delimiter, text_type):
+
     text_nodes = []
     for node in old_nodes:
         text_string = node.text

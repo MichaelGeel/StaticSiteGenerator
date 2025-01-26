@@ -1,5 +1,6 @@
 from textnode import TextNode, TextType
 from htmlnode import LeafNode
+import node_split
 
 def text_node_to_html_node(text_node):
     match text_node.text_type:
@@ -18,10 +19,20 @@ def text_node_to_html_node(text_node):
     
     return converted_node
 
+def text_to_textnodes(text):
+    node = TextNode(text, TextType.NORMAL)
+    node_list = node_split.split_nodes_delimited([node], "**", TextType.BOLD)
+    node_list = node_list[:-1] + node_split.split_nodes_delimited([node_list[-1]], "*", TextType.ITALIC)
+    node_list = node_list[:-1] + node_split.split_nodes_delimited([node_list[-1]], "`", TextType.CODE)
+    node_list = node_list[:-1] + node_split.split_nodes_image([node_list[-1]])
+    node_list = node_list[:-1] + node_split.split_nodes_link([node_list[-1]])
+
+    return node_list
+
 
 def main():
-    new_node = TextNode("This is a text node", "bold", "https://www.boot.dev")
-    print(new_node)
+    text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+    print(text_to_textnodes(text))
 
 
 if __name__ == "__main__":
