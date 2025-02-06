@@ -27,11 +27,26 @@ def generate_page(from_path, template_path, dest_path):
     with open(os.path.join(dest_path), "w") as new_file:
         new_file.write(template_contents)
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for path in os.listdir(dir_path_content):
+        full_src_path = os.path.join(dir_path_content, path)
+        full_dest_path = os.path.join(dest_dir_path, path.replace(".md", ".html"))
+        if os.path.isfile(full_src_path):
+            generate_page(full_src_path, template_path, full_dest_path)
+        else:
+            if not os.path.exists(full_dest_path):
+                os.mkdir(full_dest_path)
+            generate_pages_recursive(full_src_path, template_path, full_dest_path)
+
+# TODO: Crawl every entry in the content directory
+# TODO: For every md file found, generate a new .html file using the same template.html.
+# TODO: Write generated pages to the public directory in the same directory structure.
+
 
 def main():
     #print(markdown_to_html_node(full_markdown_text).to_html())
     fresh_port()
-    generate_page("./content/index.md", "./template.html", "./public/index.html")
+    generate_pages_recursive("./content", "./template.html", "./public")
 
 
 if __name__ == "__main__":
