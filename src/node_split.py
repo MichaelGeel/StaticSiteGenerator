@@ -7,10 +7,11 @@ def split_nodes_delimited(old_nodes, delimiter, text_type):
     text_nodes = []
     for node in old_nodes:
         text_string = node.text
+        node_type = node.text_type
         while len(text_string) > 0:
             first_delim = text_string.find(delimiter)
             if first_delim == -1:
-                text_nodes.append(TextNode(text_string, TextType.NORMAL))
+                text_nodes.append(TextNode(text_string, node_type))
                 text_string = ""
                 continue
             if first_delim > 0:

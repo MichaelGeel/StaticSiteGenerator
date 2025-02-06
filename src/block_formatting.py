@@ -11,7 +11,8 @@ def markdown_to_blocks(markdown):
             continue
         if formatted_block[0] == "\n":
             formatted_block = formatted_block[1:]
-        formatted_block = f"{formatted_block[0:2]}{formatted_block[2:].strip()}"
+        first_space = formatted_block.find(" ")
+        formatted_block = f"{formatted_block[0:first_space+1]}{formatted_block[first_space+1:].strip()}"
         formatted_blocks.append(formatted_block)
 
     return formatted_blocks

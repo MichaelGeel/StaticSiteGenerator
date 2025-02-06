@@ -13,3 +13,10 @@ def extract_markdown_links(text):
         (re.findall(r"\[(.*?)\]", link)[0], re.findall(r"\((.*?)\)", link)[0]) for link in raw_links
     ]
     return links
+
+def extract_title(markdown):
+    md_lines = markdown.split("\n")
+    for line in md_lines:
+        if line[:2] == "# ":
+            return line[2:]
+    raise BaseException("no title in file")

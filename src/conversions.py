@@ -69,7 +69,7 @@ def block_to_node(block_tuple):
             text = block_tuple[1].split("\n")
             child_parent_nodes = []
             for line in text:
-                nodes = text_to_textnodes(line[1:])
+                nodes = text_to_textnodes(line[2:])
                 if len(nodes) > 1:
                     child_nodes = []
                     for sub_node in node:
@@ -77,7 +77,7 @@ def block_to_node(block_tuple):
                     child_parent_nodes.append(ParentNode("p", child_nodes))
                 else:
                     child_parent_nodes.append(text_node_to_html_node(nodes[0]))
-            return ParentNode("blockquote", [child_parent_nodes])
+            return ParentNode("blockquote", child_parent_nodes)
         case "unordered list": # Create a separate function for handling the items of un/ordered lists to save on code repitition.
             return list_items(block_tuple[1], "ul")
         case "ordered list":
@@ -91,9 +91,10 @@ def markdown_to_html_node(markdown):
     for block in block_and_type:
         block_nodes.append(block_to_node(block))
     if block_nodes != []:
-        body_node = ParentNode("body", block_nodes)
+        div_node = ParentNode("div", block_nodes)
     else:
-        body_node = LeafNode("", "body")
-    html_node = ParentNode("html", [body_node])
+        div_node = LeafNode("", "div")
+    # html_node = ParentNode("html", [body_node])
 
-    return html_node
+    # return html_node
+    return div_node
